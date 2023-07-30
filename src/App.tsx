@@ -1,26 +1,31 @@
-import React from 'react';
-import logo from './logo.svg';
-import './App.css';
+import React, {useEffect, useState} from "react";
+import {getTemplates, Template} from "./getTemplates";
+import {Defect, makeData} from "./makeData";
+import Table from "./Table";
 
-function App() {
-  return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.tsx</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
-  );
+export const App = () => {
+	const [templates, setTemplates] = useState<Template[]>([]);
+	const [selectedTabId, setSelectedTabId] = useState(0);
+	const [data, setData] = useState<Defect[]>([]);
+	const refreshData = () => setData(() => makeData(100));
+
+	useEffect(() => {
+		getTemplates().then(list => {
+			setTemplates(list);
+			setSelectedTabId(list[0].id);
+		});
+
+		refreshData();
+	},[])
+
+	const selectedTemplate = templates.find(template => template.id == selectedTabId)!;
+
+	return selectedTabId !== 0 ? <>
+		{
+			templates.map(template => {
+				return <button key={template.id} onClick={() => setSelectedTabId(template.id)}>{template.name}</button>
+			})
+		}
+		<Table template={selectedTemplate} data={data!} setData={setData} refreshData={refreshData}/>
+	</> : <></>
 }
-
-export default App;

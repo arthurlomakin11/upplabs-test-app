@@ -11,3 +11,28 @@ code {
   font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
     monospace;
 }
+
+.cell {
+  white-space: pre-wrap;
+  color: #424242;
+  font-size: 1rem;
+  resize: none;
+  background-color: white;
+  box-sizing: border-box;
+  flex: 1 1 auto;
+  outline: none;
+  border: 1px solid black;
+}
+
+.cell input {
+  padding: .5rem;
+  border: 0;
+}
+
+.table {
+  border-collapse: collapse;
+}
+
+.p-2 {
+  padding: 30px;
+}
